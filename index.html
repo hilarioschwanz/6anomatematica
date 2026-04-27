@@ -20,7 +20,7 @@
         }
         
         .pagina {
-            max-width: 1400px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
@@ -31,43 +31,39 @@
             flex-wrap: wrap;
         }
         
-        /* ANÚNCIOS LATERAIS */
-        .ads-side {
-            flex: 0 0 160px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* BOTÃO DE DOAÇÃO */
+        .doacao-container {
+            text-align: center;
+            margin-bottom: 20px;
         }
         
-        .ad-card {
-            background: white;
-            border-radius: 15px;
-            padding: 10px;
-            text-align: center;
+        .btn-doar {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-        .ad-card:hover { transform: scale(1.02); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
-        .ad-card img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 10px; }
-        .ad-card-title { font-weight: bold; color: #2c3e50; margin-top: 8px; font-size: 0.8rem; }
-        .ad-card-desc { font-size: 0.7rem; color: #666; margin-top: 4px; }
         
-        /* ANÚNCIOS TOPO E RODAPÉ (MOBILE) */
-        .ad-top, .ad-bottom { width: 100%; max-width: 500px; margin: 0 auto; display: none; }
-        .ad-banner { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 10px; margin-bottom: 15px; text-align: center; cursor: pointer; transition: transform 0.3s; }
-        .ad-banner:hover { transform: scale(1.02); }
-        .ad-banner img { max-width: 100%; height: 60px; object-fit: contain; border-radius: 8px; }
+        .btn-doar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
         
         /* ÁREA DO JOGO + RANKING */
         .game-area {
             flex: 1;
             min-width: 300px;
             max-width: 500px;
+            margin: 0 auto;
         }
         
         /* CARD DO JOGO */
@@ -281,10 +277,6 @@
             margin-left: 10px;
         }
         
-        .medalha-1 { color: #f1c40f; }
-        .medalha-2 { color: #95a5a6; }
-        .medalha-3 { color: #cd7f32; }
-        
         .sem-dados {
             text-align: center;
             color: #999;
@@ -313,6 +305,47 @@
             text-align: center;
         }
         
+        .pix-area {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        
+        .pix-chave {
+            font-family: monospace;
+            font-size: 1rem;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .btn-copiar {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .admin-form input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
         footer {
             margin-top: 30px;
             text-align: center;
@@ -321,42 +354,20 @@
             cursor: pointer;
             padding: 15px;
         }
-        
-        @media (max-width: 900px) {
-            .ads-side { display: none; }
-            .ad-top, .ad-bottom { display: block; }
-        }
-        @media (min-width: 901px) {
-            .ad-top, .ad-bottom { display: none !important; }
-        }
     </style>
 </head>
 <body>
     <div class="pagina">
+        <!-- BOTÃO DE DOAÇÃO -->
+        <div class="doacao-container">
+            <button class="btn-doar" onclick="abrirDoacao()">
+                💝 APOIAR PROJETO
+            </button>
+        </div>
+        
         <div class="container">
-            <!-- ADS LATERAL ESQUERDA -->
-            <div class="ads-side">
-                <div class="ad-card" onclick="openAdLink('side1')">
-                    <img id="ad1-img" src="https://via.placeholder.com/160x150?text=Anuncio">
-                    <div class="ad-card-title" id="ad1-title">Anúncio 1</div>
-                    <div class="ad-card-desc" id="ad1-desc">Divulgue seu negócio</div>
-                </div>
-                <div class="ad-card" onclick="openAdLink('side2')">
-                    <img id="ad2-img" src="https://via.placeholder.com/160x150?text=Anuncio">
-                    <div class="ad-card-title" id="ad2-title">Anúncio 2</div>
-                    <div class="ad-card-desc" id="ad2-desc">Divulgue seu negócio</div>
-                </div>
-            </div>
-            
             <!-- ÁREA DO JOGO + RANKING -->
             <div class="game-area">
-                <!-- ANÚNCIO TOPO (MOBILE) -->
-                <div class="ad-top">
-                    <div class="ad-banner" onclick="openAdLink('top')">
-                        <img id="top-img" src="https://via.placeholder.com/468x60?text=Anuncio">
-                    </div>
-                </div>
-                
                 <!-- JOGO -->
                 <div class="game-card">
                     <div class="header">
@@ -397,34 +408,13 @@
                         <button class="tab-btn" onclick="mostrarRankingNivel(10, this)">Nível 10</button>
                     </div>
                     <div class="ranking-conteudo" id="rankingConteudo">
-                        <div class="sem-dados">Selecione um nível</div>
+                        <div class="sem-dados">🎯 Selecione um nível</div>
                     </div>
-                </div>
-                
-                <!-- ANÚNCIO RODAPÉ (MOBILE) -->
-                <div class="ad-bottom">
-                    <div class="ad-banner" onclick="openAdLink('bottom')">
-                        <img id="bottom-img" src="https://via.placeholder.com/468x60?text=Anuncio">
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ADS LATERAL DIREITA -->
-            <div class="ads-side">
-                <div class="ad-card" onclick="openAdLink('side3')">
-                    <img id="ad3-img" src="https://via.placeholder.com/160x150?text=Anuncio">
-                    <div class="ad-card-title" id="ad3-title">Anúncio 3</div>
-                    <div class="ad-card-desc" id="ad3-desc">Divulgue seu negócio</div>
-                </div>
-                <div class="ad-card" onclick="openAdLink('side4')">
-                    <img id="ad4-img" src="https://via.placeholder.com/160x150?text=Anuncio">
-                    <div class="ad-card-title" id="ad4-title">Anúncio 4</div>
-                    <div class="ad-card-desc" id="ad4-desc">Divulgue seu negócio</div>
                 </div>
             </div>
         </div>
         
-        <footer onclick="abrirAdmin()">© 2026 | Clique para Configurar Anúncios</footer>
+        <footer onclick="abrirAdmin()">© 2026 | Clique para Configurar Chave PIX (Admin: Admin2024)</footer>
     </div>
     
     <!-- MODAL GAME OVER -->
@@ -436,8 +426,90 @@
             <button onclick="reiniciarJogo()">JOGAR NOVAMENTE</button>
         </div>
     </div>
+    
+    <!-- MODAL DOAÇÃO -->
+    <div id="doacaoModal" class="modal">
+        <div class="modal-content">
+            <h2>💝 Apoie o Projeto</h2>
+            <p>Sua contribuição ajuda a manter este jogo gratuito e em constante melhoria!</p>
+            <div class="pix-area">
+                <strong>📱 Chave PIX (CNPJ/CPF/Email/Telefone):</strong>
+                <div class="pix-chave" id="pixChaveDisplay">carregando...</div>
+                <button class="btn-copiar" onclick="copiarPix()">📋 Copiar Chave PIX</button>
+            </div>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Após o pagamento, o código será validado automaticamente.</p>
+            <button onclick="fecharDoacao()" style="background: #666;">FECHAR</button>
+        </div>
+    </div>
+    
+    <!-- MODAL ADMIN PIX -->
+    <div id="adminPixModal" class="modal">
+        <div class="modal-content">
+            <h2>🔧 Configurar Chave PIX</h2>
+            <div class="admin-form">
+                <label>Tipo da Chave:</label>
+                <select id="pixTipo">
+                    <option value="CPF">CPF</option>
+                    <option value="CNPJ">CNPJ</option>
+                    <option value="Email">E-mail</option>
+                    <option value="Telefone">Telefone</option>
+                    <option value="Aleatória">Chave Aleatória</option>
+                </select>
+                <label>Chave PIX:</label>
+                <input type="text" id="pixChave" placeholder="Digite a chave PIX">
+                <label>Nome do Beneficiário (opcional):</label>
+                <input type="text" id="pixNome" placeholder="Nome do beneficiário">
+                <button onclick="salvarPix()">💾 SALVAR CHAVE PIX</button>
+                <button onclick="fecharAdminPix()" style="background:#666">FECHAR</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // ========== CONFIGURAÇÃO PIX ==========
+        let pixConfig = JSON.parse(localStorage.getItem('pixConfig')) || {
+            tipo: "Email",
+            chave: "contato@matematica.com",
+            nome: "Projeto Matemática"
+        };
+        
+        function salvarPix() {
+            pixConfig = {
+                tipo: document.getElementById('pixTipo').value,
+                chave: document.getElementById('pixChave').value,
+                nome: document.getElementById('pixNome').value
+            };
+            localStorage.setItem('pixConfig', JSON.stringify(pixConfig));
+            alert("Chave PIX salva com sucesso!");
+            fecharAdminPix();
+        }
+        
+        function abrirDoacao() {
+            const chaveDisplay = document.getElementById('pixChaveDisplay');
+            chaveDisplay.innerHTML = `${pixConfig.tipo}: ${pixConfig.chave}<br>${pixConfig.nome ? `(${pixConfig.nome})` : ''}`;
+            document.getElementById('doacaoModal').style.display = 'flex';
+        }
+        
+        function fecharDoacao() {
+            document.getElementById('doacaoModal').style.display = 'none';
+        }
+        
+        function copiarPix() {
+            navigator.clipboard.writeText(pixConfig.chave);
+            alert("Chave PIX copiada! ✅\n\n" + pixConfig.chave);
+        }
+        
+        function abrirAdminPix() {
+            document.getElementById('pixTipo').value = pixConfig.tipo;
+            document.getElementById('pixChave').value = pixConfig.chave;
+            document.getElementById('pixNome').value = pixConfig.nome || '';
+            document.getElementById('adminPixModal').style.display = 'flex';
+        }
+        
+        function fecharAdminPix() {
+            document.getElementById('adminPixModal').style.display = 'none';
+        }
+        
         // ========== BANCO DE QUESTÕES ==========
         const bancoQuestoes = {
             1: [
@@ -450,11 +522,7 @@
                 { texto: "Qual o sucessor de 199?", a: "198", b: "200", c: "201", d: "210", correta: "b" },
                 { texto: "1000 ÷ 10 = ?", a: "10", b: "100", c: "1000", d: "1", correta: "b" },
                 { texto: "Uma dúzia equivale a:", a: "10", b: "11", c: "12", d: "13", correta: "c" },
-                { texto: "5 × 0 = ?", a: "0", b: "5", c: "10", d: "1", correta: "a" },
-                { texto: "9 + 8 = ?", a: "15", b: "16", c: "17", d: "18", correta: "c" },
-                { texto: "15 - 7 = ?", a: "6", b: "7", c: "8", d: "9", correta: "c" },
-                { texto: "4 × 6 = ?", a: "20", b: "22", c: "24", d: "26", correta: "c" },
-                { texto: "30 ÷ 5 = ?", a: "5", b: "6", c: "7", d: "8", correta: "b" }
+                { texto: "5 × 0 = ?", a: "0", b: "5", c: "10", d: "1", correta: "a" }
             ],
             2: [
                 { texto: "144 ÷ 12 = ?", a: "10", b: "11", c: "12", d: "13", correta: "c" },
@@ -508,9 +576,7 @@
         
         function salvarProgressoNivel(nivel, acertos, total, pontuacaoFinal) {
             if(!rankingNivel[nivel]) rankingNivel[nivel] = [];
-            
             const percentual = Math.round((acertos / total) * 100);
-            
             rankingNivel[nivel].push({
                 nome: nomeJogador,
                 acertos: acertos,
@@ -519,37 +585,26 @@
                 pontuacao: pontuacaoFinal,
                 data: new Date().toISOString()
             });
-            
             rankingNivel[nivel].sort((a, b) => {
                 if(b.percentual !== a.percentual) return b.percentual - a.percentual;
                 return b.pontuacao - a.pontuacao;
             });
-            
             rankingNivel[nivel] = rankingNivel[nivel].slice(0, 15);
             localStorage.setItem('rankingNivel', JSON.stringify(rankingNivel));
         }
         
         function mostrarRankingNivel(nivel, botao) {
-            // Atualizar abas
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('ativo'));
             if(botao) botao.classList.add('ativo');
-            
             const dados = rankingNivel[nivel] || [];
             const container = document.getElementById('rankingConteudo');
-            
             if(dados.length === 0) {
                 container.innerHTML = '<div class="sem-dados">🎯 Nenhum jogador ainda neste nível!</div>';
                 return;
             }
-            
             let html = '';
             dados.forEach((item, idx) => {
-                let medalha = '';
-                if(idx === 0) medalha = '🥇 ';
-                else if(idx === 1) medalha = '🥈 ';
-                else if(idx === 2) medalha = '🥉 ';
-                else medalha = `${idx+1}º `;
-                
+                let medalha = idx === 0 ? '🥇 ' : idx === 1 ? '🥈 ' : idx === 2 ? '🥉 ' : `${idx+1}º `;
                 html += `
                     <div class="rank-item">
                         <div class="rank-posicao">${medalha}</div>
@@ -585,28 +640,15 @@
         function carregarNivel(nivel) {
             nivelAtual = nivel;
             acertosNivel = 0;
-            
             let banco = bancoQuestoes[nivel] || [];
-            if(banco.length === 0) {
-                for(let i = 1; i <= 20; i++) {
-                    banco.push({
-                        texto: `Questão ${i} do Nível ${nivel}`,
-                        a: "Alternativa A", b: "Alternativa B", c: "Alternativa C", d: "Alternativa D",
-                        correta: ["a","b","c","d"][Math.floor(Math.random() * 4)]
-                    });
-                }
-            }
-            
             const bancoEmbaralhado = embaralhar([...banco]);
             questoesNivel = bancoEmbaralhado.slice(0, 10);
             totalQuestoesNivel = questoesNivel.length;
-            
             indiceQuestao = 0;
             vidas = 3;
             sequencia = 0;
             alternativaSelecionada = null;
             processando = false;
-            
             atualizarUI();
             carregarQuestao();
         }
@@ -779,62 +821,11 @@
             carregarNivel(1);
         }
         
-        // ========== ANÚNCIOS ==========
-        function openAdLink(pos) {
-            const links = JSON.parse(localStorage.getItem('ad_links')) || {};
-            const link = links[pos] || "#";
-            if(link !== "#") {
-                window.open(link, '_blank');
-            } else {
-                alert("Anúncio não configurado. Clique no rodapé para configurar.");
-            }
-        }
-        
-        function carregarAnuncios() {
-            const ads = JSON.parse(localStorage.getItem('ads_config')) || {};
-            
-            // Configurar anúncios laterais
-            for(let i = 1; i <= 4; i++) {
-                const ad = ads[`side${i}`] || {};
-                const img = document.getElementById(`ad${i}-img`);
-                const title = document.getElementById(`ad${i}-title`);
-                const desc = document.getElementById(`ad${i}-desc`);
-                if(img) img.src = ad.img || `https://via.placeholder.com/160x150?text=Anuncio+${i}`;
-                if(title) title.innerHTML = ad.title || `Anúncio ${i}`;
-                if(desc) desc.innerHTML = ad.desc || "Divulgue seu negócio";
-            }
-            
-            // Configurar anúncio topo
-            const topAd = ads['top'] || {};
-            const topImg = document.getElementById('top-img');
-            if(topImg) topImg.src = topAd.img || "https://via.placeholder.com/468x60?text=Anuncio+Topo";
-            
-            // Configurar anúncio rodapé
-            const bottomAd = ads['bottom'] || {};
-            const bottomImg = document.getElementById('bottom-img');
-            if(bottomImg) bottomImg.src = bottomAd.img || "https://via.placeholder.com/468x60?text=Anuncio+Rodape";
-        }
-        
+        // ========== ADMIN ==========
         function abrirAdmin() {
             const senha = prompt("Senha do administrador:");
             if(senha === "Admin2024") {
-                const pos = prompt("Configurar anúncio:\n1 - Lateral Esq1\n2 - Lateral Esq2\n3 - Topo\n4 - Rodapé\n5 - Lateral Dir1\n6 - Lateral Dir2\n\nDigite o número:");
-                const posMap = {1:'side1',2:'side2',3:'top',4:'bottom',5:'side3',6:'side4'};
-                const position = posMap[pos];
-                if(position) {
-                    const imgUrl = prompt("URL da imagem (ex: https://exemplo.com/imagem.jpg):");
-                    const linkUrl = prompt("URL de destino (ex: https://instagram.com/...):");
-                    const title = prompt("Título do anúncio:");
-                    const desc = prompt("Descrição curta:");
-                    const ads = JSON.parse(localStorage.getItem('ads_config')) || {};
-                    ads[position] = { img: imgUrl, link: linkUrl, title: title, desc: desc };
-                    localStorage.setItem('ads_config', JSON.stringify(ads));
-                    const links = JSON.parse(localStorage.getItem('ad_links')) || {};
-                    links[position] = linkUrl;
-                    localStorage.setItem('ad_links', JSON.stringify(links));
-                    alert("Anúncio salvo! Recarregue a página.");
-                    location.reload();
-                }
+                abrirAdminPix();
             } else if(senha !== null) {
                 alert("Senha incorreta!");
             }
@@ -842,9 +833,7 @@
         
         // Inicialização
         window.onload = () => {
-            carregarAnuncios();
             iniciarJogo();
-            // Selecionar primeiro nível do ranking
             const primeiroBotao = document.querySelector('.tab-btn');
             if(primeiroBotao) {
                 primeiroBotao.classList.add('ativo');
