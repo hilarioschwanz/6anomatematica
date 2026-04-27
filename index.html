@@ -339,7 +339,7 @@
             margin-top: 15px;
         }
         
-        .admin-form input {
+        .admin-form input, .admin-form select {
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -349,10 +349,14 @@
         footer {
             margin-top: 30px;
             text-align: center;
-            color: rgba(255,255,255,0.7);
-            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
             cursor: pointer;
             padding: 15px;
+        }
+        
+        footer:hover {
+            color: rgba(255,255,255,0.9);
         }
     </style>
 </head>
@@ -414,7 +418,7 @@
             </div>
         </div>
         
-        <footer onclick="abrirAdmin()">© 2026 | Clique para Configurar Chave PIX (Admin: Admin2024)</footer>
+        <footer onclick="abrirAdmin()">© 2026 | Configurações do Sistema</footer>
     </div>
     
     <!-- MODAL GAME OVER -->
@@ -433,11 +437,11 @@
             <h2>💝 Apoie o Projeto</h2>
             <p>Sua contribuição ajuda a manter este jogo gratuito e em constante melhoria!</p>
             <div class="pix-area">
-                <strong>📱 Chave PIX (CNPJ/CPF/Email/Telefone):</strong>
+                <strong>📱 Chave PIX:</strong>
                 <div class="pix-chave" id="pixChaveDisplay">carregando...</div>
                 <button class="btn-copiar" onclick="copiarPix()">📋 Copiar Chave PIX</button>
             </div>
-            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Após o pagamento, o código será validado automaticamente.</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Após a doação, o código será validado automaticamente.</p>
             <button onclick="fecharDoacao()" style="background: #666;">FECHAR</button>
         </div>
     </div>
@@ -823,7 +827,7 @@
         
         // ========== ADMIN ==========
         function abrirAdmin() {
-            const senha = prompt("Senha do administrador:");
+            const senha = prompt("Digite a senha de administrador:");
             if(senha === "Admin2024") {
                 abrirAdminPix();
             } else if(senha !== null) {
