@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
     <title>Matemática 6º Ano - Jogo SAEB</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -19,6 +23,98 @@
             padding: 20px;
         }
         
+        /* ========== TELA DE CAPA ========== */
+        .tela-capa {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tela-capa.oculta {
+            display: none;
+        }
+
+        .capa-conteudo {
+            text-align: center;
+            color: white;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-grande {
+            font-size: 120px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .titulo-capa {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitulo-capa {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .btn-comeco {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-comeco:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .info-capa {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 40px;
+            max-width: 300px;
+        }
+
+        .icone-download {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* ========== JOGO PRINCIPAL ========== */
         .pagina {
             max-width: 800px;
             margin: 0 auto;
@@ -31,7 +127,6 @@
             flex-wrap: wrap;
         }
         
-        /* BOTÃO DE DOAÇÃO */
         .doacao-container {
             text-align: center;
             margin-bottom: 20px;
@@ -58,7 +153,6 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
         
-        /* ÁREA DO JOGO + RANKING */
         .game-area {
             flex: 1;
             min-width: 300px;
@@ -66,7 +160,6 @@
             margin: 0 auto;
         }
         
-        /* CARD DO JOGO */
         .game-card {
             background: white;
             border-radius: 30px;
@@ -199,7 +292,6 @@
         .btn-next:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-restart { background: #3498db; color: white; }
         
-        /* RANKING POR NÍVEL */
         .ranking-nivel {
             background: rgba(255,255,255,0.95);
             border-radius: 20px;
@@ -361,64 +453,77 @@
     </style>
 </head>
 <body>
-    <div class="pagina">
-        <!-- BOTÃO DE DOAÇÃO -->
-        <div class="doacao-container">
-            <button class="btn-doar" onclick="abrirDoacao()">
-                💝 APOIAR PROJETO
-            </button>
+    <!-- ========== TELA DE CAPA ========== -->
+    <div id="telaCapa" class="tela-capa">
+        <div class="capa-conteudo">
+            <div class="logo-grande">📚</div>
+            <h1 class="titulo-capa">MATEMÁTICA 6º</h1>
+            <p class="subtitulo-capa">Jogo Educativo SAEB</p>
+            <button class="btn-comeco" onclick="iniciarDoAqui()">🎮 COMEÇAR</button>
+            <div class="info-capa">
+                <div class="icone-download">⬇️</div>
+                <p><strong>Dica:</strong> Clique nos 3 pontos (⋮) do navegador e selecione "Instalar app" para baixar no seu celular! ⭐</p>
+            </div>
         </div>
-        
-        <div class="container">
-            <!-- ÁREA DO JOGO + RANKING -->
-            <div class="game-area">
-                <!-- JOGO -->
-                <div class="game-card">
-                    <div class="header">
-                        <div class="badge badge-level" id="levelDisplay">📚 Nível 1</div>
-                        <div class="badge badge-score" id="scoreDisplay">⭐ 0 pts</div>
-                        <div class="badge badge-streak" id="streakDisplay">🔥 0</div>
+    </div>
+
+    <!-- ========== JOGO PRINCIPAL ========== -->
+    <div id="jogo" style="display: none;">
+        <div class="pagina">
+            <div class="doacao-container">
+                <button class="btn-doar" onclick="abrirDoacao()">
+                    💝 APOIAR PROJETO
+                </button>
+            </div>
+            
+            <div class="container">
+                <div class="game-area">
+                    <div class="game-card">
+                        <div class="header">
+                            <div class="badge badge-level" id="levelDisplay">📚 Nível 1</div>
+                            <div class="badge badge-score" id="scoreDisplay">⭐ 0 pts</div>
+                            <div class="badge badge-streak" id="streakDisplay">🔥 0</div>
+                        </div>
+                        
+                        <div class="progress-area">
+                            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                            <div class="progress-text" id="progressText">Questão 1 de 10</div>
+                        </div>
+                        
+                        <div class="lives" id="livesContainer">❤️ ❤️ ❤️</div>
+                        
+                        <div class="question-box">
+                            <div class="question-text" id="questionText">Carregando...</div>
+                            <div class="options" id="optionsContainer"></div>
+                        </div>
+                        
+                        <button class="btn-next" id="nextBtn" onclick="proximaQuestao()" disabled>▶ PRÓXIMA</button>
+                        <button class="btn-restart" onclick="reiniciarJogo()">🔄 RECOMEÇAR JOGO</button>
                     </div>
                     
-                    <div class="progress-area">
-                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-                        <div class="progress-text" id="progressText">Questão 1 de 10</div>
-                    </div>
-                    
-                    <div class="lives" id="livesContainer">❤️ ❤️ ❤️</div>
-                    
-                    <div class="question-box">
-                        <div class="question-text" id="questionText">Carregando...</div>
-                        <div class="options" id="optionsContainer"></div>
-                    </div>
-                    
-                    <button class="btn-next" id="nextBtn" onclick="proximaQuestao()" disabled>▶ PRÓXIMA</button>
-                    <button class="btn-restart" onclick="reiniciarJogo()">🔄 RECOMEÇAR JOGO</button>
-                </div>
-                
-                <!-- RANKING POR NÍVEL -->
-                <div class="ranking-nivel">
-                    <h3>🏆 RANKING POR NÍVEL 🏆</h3>
-                    <div class="tabs-ranking">
-                        <button class="tab-btn" onclick="mostrarRankingNivel(1, this)">Nível 1</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(2, this)">Nível 2</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(3, this)">Nível 3</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(4, this)">Nível 4</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(5, this)">Nível 5</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(6, this)">Nível 6</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(7, this)">Nível 7</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(8, this)">Nível 8</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(9, this)">Nível 9</button>
-                        <button class="tab-btn" onclick="mostrarRankingNivel(10, this)">Nível 10</button>
-                    </div>
-                    <div class="ranking-conteudo" id="rankingConteudo">
-                        <div class="sem-dados">🎯 Selecione um nível</div>
+                    <div class="ranking-nivel">
+                        <h3>🏆 RANKING POR NÍVEL 🏆</h3>
+                        <div class="tabs-ranking">
+                            <button class="tab-btn" onclick="mostrarRankingNivel(1, this)">Nível 1</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(2, this)">Nível 2</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(3, this)">Nível 3</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(4, this)">Nível 4</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(5, this)">Nível 5</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(6, this)">Nível 6</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(7, this)">Nível 7</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(8, this)">Nível 8</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(9, this)">Nível 9</button>
+                            <button class="tab-btn" onclick="mostrarRankingNivel(10, this)">Nível 10</button>
+                        </div>
+                        <div class="ranking-conteudo" id="rankingConteudo">
+                            <div class="sem-dados">🎯 Selecione um nível</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <footer onclick="abrirAdmin()">© 2026 | Configurações do Sistema</footer>
         </div>
-        
-        <footer onclick="abrirAdmin()">© 2026 | Configurações do Sistema</footer>
     </div>
     
     <!-- MODAL GAME OVER -->
@@ -470,6 +575,13 @@
     </div>
 
     <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').catch(err => {
+                console.log('Service Worker não registrado:', err);
+            });
+        }
+
         // ========== CONFIGURAÇÃO PIX ==========
         let pixConfig = JSON.parse(localStorage.getItem('pixConfig')) || {
             tipo: "Email",
@@ -514,6 +626,13 @@
             document.getElementById('adminPixModal').style.display = 'none';
         }
         
+        // ========== TELA DE CAPA ==========
+        function iniciarDoAqui() {
+            document.getElementById('telaCapa').classList.add('oculta');
+            document.getElementById('jogo').style.display = 'block';
+            iniciarJogo();
+        }
+
         // ========== BANCO DE QUESTÕES ==========
         const bancoQuestoes = {
             1: [
@@ -834,16 +953,6 @@
                 alert("Senha incorreta!");
             }
         }
-        
-        // Inicialização
-        window.onload = () => {
-            iniciarJogo();
-            const primeiroBotao = document.querySelector('.tab-btn');
-            if(primeiroBotao) {
-                primeiroBotao.classList.add('ativo');
-                mostrarRankingNivel(1, primeiroBotao);
-            }
-        };
     </script>
 </body>
 </html>
